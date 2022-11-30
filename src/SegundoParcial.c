@@ -19,6 +19,9 @@ int main(void) {
 	FILE* pFile = NULL;
 	LinkedList* listaAux = NULL;
 
+	int flag3=0;
+	int flag5=0;
+
 	do{
 		system("CLS");
 		if(utn_pedirInt(&opcion,"\nMENU:\n1.Cargar archivos.\n2.Imprimir Lista.\n3.Asignar tiempos.\n4.Filtrar por tipos."
@@ -47,36 +50,49 @@ int main(void) {
 				system("PAUSE");
 				break;
 			case 3:
-				srand(time(NULL));
-				ll_map(listaPelis,peli_asignarTiempo);
-				break;
-			case 4:
-				listaAux = ll_filter(listaPelis,filtrarPelis);
-				if(ll_isEmpty(listaAux)==0)
+				if(ll_isEmpty(listaPelis)==0)
 				{
-					peli_guardarModoTexto(listaAux,"listaFiltrada.csv");
-					printf("\nGuardado OK!");
+					srand(time(NULL));
+					ll_map(listaPelis,peli_asignarTiempo);
+					printf("\nTiempos OK\n");
+					flag3=1;
 				}else{
-					printf("\nLista vacia!.");
-
+					printf("\nSe necesita cargar el archivo primero!.\n");
 				}system("PAUSE");
 				break;
+			case 4:
+				if(ll_isEmpty(listaPelis)==0)
+				{
+					listaAux = ll_filter(listaPelis,filtrarPelis);
+					if(ll_isEmpty(listaAux)==0)
+					{
+						peli_guardarModoTexto(listaAux,"listaFiltrada.csv");
+						printf("\nGuardado OK!");
+					}else{
+						printf("\nLista vacia!.");
+					}
+				}else{
+					printf("\nSe necesita cargar el archivo primero!\n");
+				}
+				system("PAUSE");
+				break;
 			case 5:
-				if(ll_sort(listaPelis,ordenarXgenero,1)==0 && ll_sort(listaPelis,ordenarXDuracion,1)==0)
+				if(flag3==1&&ll_sort(listaPelis,ordenarXgenero,1)==0 && ll_sort(listaPelis,ordenarXDuracion,1)==0)
 				{
 					listarPelis(listaPelis,1);
+					flag5=1;
 				}else{
-					printf("\nError de ordenamiento!.");
+					printf("\nError de ordenamiento, se necesita cargar el archivo o SETEAR LOS TIEMPOS antes!.");
 				}
 				printf("\n");
 				system("PAUSE");
 				break;
 			case 6:
-				if(peli_guardarModoTexto(listaPelis,"case6PelisOrdenadas.csv")==0)
+				if(flag5==1 && peli_guardarModoTexto(listaPelis,"case6PelisOrdenadas.csv")==0)
 				{
 					printf("\nGuardado OK!\n");
 				}else{
-					printf("\nError de guardado.\n");
+					printf("\nError de guardado, se debe entrar al case 5 primero.\n");
 				}system("PAUSE");
 				break;
 			case 7:

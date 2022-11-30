@@ -9,4 +9,9 @@
 #define PARSER_H_
 #endif /* PARSER_H_ */
 
-int parser_PeliDesdeTexto(FILE* pFile , LinkedList* pArrayListJugador);
+/// @brief Funcion parser para leer el archivo desde el csv.
+///
+/// @param pFile ruta del archivo.
+/// @param listaPelis lista de peliculas.
+/// @return retorna -1 en caso de error o 0 si OK
+int parser_PeliDesdeTexto(FILE* pFile , LinkedList* listaPelis);
